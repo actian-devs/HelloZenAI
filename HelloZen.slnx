@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="HelloZen1/HelloZen1.vcxproj" />
+  <Project Path="HelloZen2/HelloZen2.vcxproj" />
+  <Project Path="HelloZen3/HelloZen3.vcxproj" />
+</Solution>

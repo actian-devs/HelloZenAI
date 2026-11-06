@@ -1,0 +1,46 @@
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+*.VC.VC.opendb
+
+# Build directories
+Debug/
+Release/
+x64/
+x86/
+out/
+build/
+
+# Compiled files
+*.exe
+*.dll
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.ipch
+*.pch
+*.tlog
+*.lastbuildstate
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~
+Thumbs.db
+.DS_Store
+
+# Local environment / credentials
+.env
+.env.*
+!.env.example
+
+# Local Zen database files
+*.mkd
+*.btr
+*.ddf
