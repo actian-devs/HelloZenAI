@@ -55,7 +55,7 @@ std::string vectorToJson(const std::vector<float>& embedding) {
 int main(int argc, char* argv[]) {
     try {
         // Number of records to generate (default: 5).
-        int count = argc > 1 ? std::stoi(argv[1]) : 5;
+        int count = argc > 1 ? std::stoi(argv[1]) : 500;
 
         if (count < 1 || count > 10000) {
             std::cerr << "Record count must be 1-10000.\n";
@@ -105,13 +105,87 @@ int main(int argc, char* argv[]) {
                 "Routine dental evaluation and oral health assessment",
                 "Recall exam including evaluation of teeth and gums",
                 "Periodic examination with updated dental findings"
+            } },
+            { "D0150",{
+              "Comprehensive oral examination for new patient",
+              "Initial full dental evaluation with treatment planning",
+              "Complete assessment of teeth, gums, and oral health",
+              "Comprehensive dental exam for established patient"
+            } },
+            { "D0210",{
+                "Complete series of intraoral dental radiographs",
+                "Full mouth X-rays including bitewing images",
+                "Obtained complete intraoral radiographic series",
+                "Full mouth dental imaging for diagnostic assessment"
+            } },
+            { "D1206",{
+                "Applied topical fluoride varnish to teeth",
+                "Fluoride varnish treatment for cavity prevention",
+                "Painted protective fluoride coating on tooth surfaces",
+                "Completed professional fluoride varnish application"
+            } },
+            { "D1351",{
+                "Applied protective dental sealant to one molar",
+                "Sealed pits and fissures of permanent tooth",
+                "Placed resin sealant on chewing surface of premolar",
+                "Preventive sealant applied to one posterior tooth"
+            } },
+            { "D2330",{
+                "Single surface composite filling on front tooth",
+                "Restored one surface of incisor with tooth colored resin",
+                "Repaired small cavity on anterior tooth with composite",
+                "Placed resin filling on one surface of canine"
+            } },
+            { "D2392",{
+                "Two surface composite restoration on posterior molar",
+                "Repaired decay on two surfaces of back tooth",
+                "Placed tooth colored filling on mesial and occlusal surfaces",
+                "Two surface resin restoration completed on premolar"
+            } },
+            { "D2740",{
+                "Placed permanent ceramic crown on molar",
+                "Restored damaged tooth with porcelain crown",
+                "Cemented custom all ceramic dental crown",
+                "Installed full coverage ceramic crown on premolar"
+            } },
+            { "D2950",{
+                "Built up damaged tooth structure to support a crown",
+                "Core buildup performed before permanent crown placement",
+                "Reconstructed missing tooth structure with core material",
+                "Placed foundation buildup for crown retention"
+            } },
+            { "D3330",{
+                "Root canal treatment completed on lower molar",
+                "Removed infected pulp and filled molar root canals",
+                "Endodontic therapy performed on upper molar",
+                "Cleaned and sealed root canals of posterior molar"
+            } },
+            { "D4910",{
+                "Periodontal maintenance following gum disease treatment",
+                "Follow-up periodontal cleaning after root planing",
+                "Maintenance visit for previously treated periodontal disease",
+                "Periodontal maintenance with subgingival plaque removal"
+            } },
+            { "D5110",{
+                "Delivered complete removable upper denture",
+                "Fitted full maxillary denture replacing all upper teeth",
+                "Fabricated and placed complete upper dental prosthesis",
+                "Inserted full upper arch removable denture"
+            } },
+            { "D7510",{
+                "Incision and drainage of abscess inside mouth",
+                "Drained localized infection in intraoral soft tissue",
+                "Opened and drained dental abscess through oral tissue",
+                "Performed intraoral soft tissue abscess drainage"
             } }
         };
 
         const std::vector<std::string> insurers = {
-            "Demo Dental A",
-            "Demo Dental B",
-            "Demo Dental C"
+            "BrightSmile",
+            "EverCrest",
+            "BlueOak",
+            "SummitPoint",
+            "PearlyGate"
         };
 
         const std::vector<std::string> feeSchedules = {

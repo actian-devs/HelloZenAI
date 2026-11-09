@@ -118,7 +118,7 @@ int main() {
 
                 // Optional relational filter.
                 std::string insurer;
-                std::cout << "\nWhich insurer (leave blank for all)?\n";
+                std::cout << "\nWhich insurer [Examples: BrightSmile, EverCrest, BlueOak, SummitPoint, PearlyGate] (leave blank for all)?\n";
                 std::getline(std::cin, insurer);
 
                 std::string filter;
