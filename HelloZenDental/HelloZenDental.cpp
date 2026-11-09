@@ -110,7 +110,7 @@ int main() {
                 std::string note;
 
                 std::cout << "\n----------------------------------------\n";
-                std::cout << "Enter a dental treatment note\n";
+                std::cout << "Enter a dental treatment note [Example: pulled back gum, scaled below gumline on lower left]\n";
                 std::cout << "(blank to exit):\n> ";
 
                 if (!std::getline(std::cin, note) || note.empty())
@@ -122,7 +122,9 @@ int main() {
                 std::getline(std::cin, insurer);
 
                 std::string filter;
-				filter = " WHERE c.Insurer = '" + insurer + "'";    // in production, use parameterization here
+                if (!insurer.empty()) {
+                    filter = " WHERE c.Insurer = '" + insurer + "'";
+                }
 
                 // STEP 1: Generate an embedding.
                 std::cout << "\n[1/3] Generating text embedding...\n";
