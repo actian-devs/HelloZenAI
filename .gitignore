@@ -44,3 +44,17 @@ Thumbs.db
 *.mkd
 *.btr
 *.ddf
+
+# NuGet downloads
+/packages/
+
+# AI models (downloaded separately)
+*.gguf
+
+# Generated build files
+**/build/
+**/x64/
+**/Debug/
+**/Release/
+.vs/
+*.user

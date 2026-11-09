@@ -3,7 +3,12 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="DataGen/DataGen.vcxproj" />
   <Project Path="HelloZen1/HelloZen1.vcxproj" />
   <Project Path="HelloZen2/HelloZen2.vcxproj" />
   <Project Path="HelloZen3/HelloZen3.vcxproj" />
+  <Project Path="HelloZenDental/HelloZenDental.vcxproj" />
 </Solution>
