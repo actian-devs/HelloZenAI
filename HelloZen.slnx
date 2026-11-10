@@ -8,9 +8,9 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="DataGen/DataGen.vcxproj" />
-  <Project Path="HelloZen1/HelloZen1.vcxproj" />
-  <Project Path="HelloZen2/HelloZen2.vcxproj" />
-  <Project Path="HelloZen3/HelloZen3.vcxproj" />
-  <Project Path="HelloZenDental/HelloZenDental.vcxproj" />
+  <Project Path="DataGen/DataGen.vcxproj" Id="12a3bc5a-0c76-4f49-859e-ca3702f0c525" />
+  <Project Path="HelloZen1/HelloZen1.vcxproj" Id="4385ac22-d70a-40ad-bfa6-58c294d9899c" />
+  <Project Path="HelloZen2/HelloZen2.vcxproj" Id="7e2c9ea2-caa1-4a84-a966-e2adcd58d818" />
+  <Project Path="HelloZen3/HelloZen3.vcxproj" Id="3c8dfb39-2234-4f8f-be21-7625b228c8d3" />
+  <Project Path="HelloZenDental/HelloZenDental.vcxproj" Id="f9e9e59e-f8e7-4c03-912a-fd146a22b23e" />
 </Solution>

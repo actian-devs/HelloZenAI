@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,6 +10,7 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
+#include <format>
 #include <foundry_local/foundry_local_cpp.h>
 
 #pragma comment(lib, "odbc32.lib")
@@ -18,7 +18,7 @@
 using namespace foundry_local;
 
 // Convert an embedding into the JSON array Zen expects.
-std::string vectorToJson(const std::vector<float>& embedding) {
+std::string vectorToJsonArray(const std::vector<float>& embedding) {
     std::ostringstream out;
     out.imbue(std::locale::classic());
     out << std::setprecision(7) << "[";
@@ -39,7 +39,7 @@ std::string vectorToJson(const std::vector<float>& embedding) {
     return out.str();
 }
 
-// Display an ODBC error, if one occurs.
+// Display an ODBC error, if one occurs
 void showError(SQLSMALLINT kind, SQLHANDLE handle) {
     SQLCHAR state[6]{}, message[512]{};
     SQLINTEGER code;
@@ -75,6 +75,7 @@ int main() {
         model->Load();
 
         {
+            // start embedding session with the model
             EmbeddingsSession session(*model);
 
             // CONNECT TO ZEN
@@ -83,8 +84,7 @@ int main() {
             SQLHSTMT stmt;
 
             SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &env);
-            SQLSetEnvAttr(env, SQL_ATTR_ODBC_VERSION,
-                (SQLPOINTER)SQL_OV_ODBC3, 0);
+            SQLSetEnvAttr(env, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
             SQLAllocHandle(SQL_HANDLE_DBC, env, &db);
 
             SQLCHAR connection[] =
@@ -105,7 +105,7 @@ int main() {
             std::cout << "Connected to Actian Zen (DENTAL).\n";
             std::cout << "Ready to search historical claims!\n";
 
-            // INTERACTIVE SEARCH
+			// interactive loop for user input, to look up codes based on treatment notes with similar meanings
             while (true) {
                 std::string note;
 
@@ -116,7 +116,7 @@ int main() {
                 if (!std::getline(std::cin, note) || note.empty())
                     break;
 
-                // Optional relational filter.
+                // (Optional) relational filter by insurance company
                 std::string insurer;
                 std::cout << "\nWhich insurer [Examples: BrightSmile, EverCrest, BlueOak, SummitPoint, PearlyGate] (leave blank for all)?\n";
                 std::getline(std::cin, insurer);
@@ -139,22 +139,27 @@ int main() {
                 // STEP 2: Search Zen's vector collection.
                 std::cout << "[2/3] Searching similar historical claims...\n";
 
-                std::string vectorJson = vectorToJson(embedding);
+                std::string vectorJson = vectorToJsonArray(embedding);
 
                 // Find 50 vector candidates, then use SQL to join
                 // claim details, filter, and return the top 3
-                std::string query =
-                    "SELECT TOP 3 "
-                    "c.ClaimID, c.ProcedureCode, c.TreatmentNote, "
-                    "c.Insurer, c.FeeSchedule, v.\"SIMILARITY_SCORE\" "
-                    "FROM dbo.vector_collection_search("
-                    "'dental_claim_embeddings', NULL, '" +
-                    vectorJson + "', 50, " +
-                    std::to_string(embedding.size()) + ") v "
-                    "INNER JOIN DentalClaims c "
-                    "ON CAST(v.U64_ID AS INTEGER) = c.ClaimID " +
-                    filter +
-                    " ORDER BY v.\"SIMILARITY_SCORE\" DESC";
+                std::string query = std::format(R"SQL(
+                    SELECT TOP 3
+                        c.ClaimID,
+                        c.ProcedureCode,
+                        c.TreatmentNote,
+                        c.Insurer,
+                        c.FeeSchedule,
+                        v."SIMILARITY_SCORE"
+                    FROM dbo.vector_collection_search(
+                        'dental_claim_embeddings', NULL, '{}', 50, {}
+                    ) v
+                    INNER JOIN DentalClaims c
+                        ON CAST(v.U64_ID AS INTEGER) = c.ClaimID
+                    {}
+                    ORDER BY v."SIMILARITY_SCORE" DESC
+                )SQL", vectorJson, embedding.size(), filter);
+
 
                 if (!SQL_SUCCEEDED(SQLExecDirectA(stmt,
                     (SQLCHAR*)query.data(), SQL_NTS))) {
@@ -171,24 +176,19 @@ int main() {
 
                 int matches = 0;
 
+                // output each row of the result set
                 while (SQL_SUCCEEDED(SQLFetch(stmt))) {
                     SQLINTEGER claimId;
                     SQLCHAR code[6]{}, treatment[256]{};
                     SQLCHAR claimInsurer[41]{}, feeSchedule[31]{};
                     SQLDOUBLE score;
 
-                    SQLGetData(stmt, 1, SQL_C_SLONG,
-                        &claimId, sizeof(claimId), nullptr);
-                    SQLGetData(stmt, 2, SQL_C_CHAR,
-                        code, sizeof(code), nullptr);
-                    SQLGetData(stmt, 3, SQL_C_CHAR,
-                        treatment, sizeof(treatment), nullptr);
-                    SQLGetData(stmt, 4, SQL_C_CHAR,
-                        claimInsurer, sizeof(claimInsurer), nullptr);
-                    SQLGetData(stmt, 5, SQL_C_CHAR,
-                        feeSchedule, sizeof(feeSchedule), nullptr);
-                    SQLGetData(stmt, 6, SQL_C_DOUBLE,
-                        &score, sizeof(score), nullptr);
+                    SQLGetData(stmt, 1, SQL_C_SLONG, &claimId, sizeof(claimId), nullptr);
+                    SQLGetData(stmt, 2, SQL_C_CHAR, code, sizeof(code), nullptr);
+                    SQLGetData(stmt, 3, SQL_C_CHAR, treatment, sizeof(treatment), nullptr);
+                    SQLGetData(stmt, 4, SQL_C_CHAR, claimInsurer, sizeof(claimInsurer), nullptr);
+                    SQLGetData(stmt, 5, SQL_C_CHAR, feeSchedule, sizeof(feeSchedule), nullptr);
+                    SQLGetData(stmt, 6, SQL_C_DOUBLE, &score, sizeof(score), nullptr);
 
                     matches++;
 
