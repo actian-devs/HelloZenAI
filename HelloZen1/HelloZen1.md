@@ -3,8 +3,9 @@
 *Tutorial 1: Install the tools, connect to Zen, and run your first C++ query.*
 
 ## Introduction
-
-If you've used Actian Zen before but haven't written an application against it, this is a good place to start. We'll get a Windows development environment running, connect to Zen's sample **DEMODATA** database using ODBC, and display records from its `Course` table in a simple console application.
+Whether you're new to Actian Zen or have experience using the database but haven't developed an application with it, this step-by-step tutorial will help you get started.
+Zen is a high-performance, embedded database designed to support applications that need reliable, efficient data access.
+In this first tutorial, we'll get a Windows development environment running, connect to Zen's sample **DEMODATA** database using ODBC, and display records from its `Course` table in a simple console application.
 
 By the end, you'll know how to:
 
@@ -16,7 +17,7 @@ By the end, you'll know how to:
 
 We're using **Windows, Visual Studio Community, C++, and Zen Enterprise Server v17 AI**. C++ makes it easy to show the ODBC API directly, but these ideas apply to C and many other languages. Other editions of Zen may work too. We're installing the AI-capable edition because later tutorials will explore vector search; **this first example does not use AI or require an AI model**.
 
-You don't need to know C++ particularly well to follow along. Familiarity with basic SQL helps.
+You don't need to know C++ particularly well to follow along. Familiarity with basic SQL helps. Here’s how to get started:
 
 ## 1. Install Visual Studio Community
 
@@ -54,13 +55,13 @@ Congratulations, your C++ development environment works. Now let's give the appl
 
 ## 2. Install Actian Zen
 
-Download **Actian Zen Enterprise Server v17 AI for Windows** from the [Actian software distribution site](https://esd.actian.com/platform/Windows_64-Bit/Zen_PSQL/v17_AI/Zen_v17_AI). Follow the licensing instructions provided with the download; a trial or valid license may be required.
+[Download **Actian Zen Enterprise Server v17 AI for Windows**](https://www.actian.com/databases/zen/downloads/). Follow the licensing instructions provided with the download; a trial or valid license may be required.
 
-Run the Enterprise Server installer (often named `Install_Zen_EnterpriseServer.exe` within the distribution), and follow the wizard. For this tutorial, the **Complete** installation is the simplest option. You should have administrator privileges on the Windows computer. Leave the default data-access components and **Zen Control Center (ZenCC)** selected.
+Run the Enterprise Server installer, and follow the wizard. For this tutorial, the **Complete** installation is the simplest option. You should have administrator privileges on the Windows computer. Leave the default data-access components and **Zen Control Center (ZenCC)** selected.
 
 The installation includes the Zen engine, ODBC connectivity, administration tools, and sample data.
 
-For more detail, see [Installing Zen Enterprise Server on Windows](https://docs.actian.com/zen/v17/getstart/02instnt.htm).
+For more details, see [Installing Zen Enterprise Server on Windows](https://docs.actian.com/zen/v17/getstart/02instnt.htm).
 
 ### Verify the sample database
 
@@ -75,13 +76,11 @@ SELECT Name, Description, Credit_Hours FROM Course;
 
 You should get several courses back. That's the same query we're about to run from C++.
 
-*Suggested screenshot: ZenCC showing the DEMODATA database and Course table.*
-
-If you're connecting to an existing Zen server instead of installing one locally, you'll need the appropriate Zen client/ODBC driver and access to that server's `DEMODATA` database.
+![Zen Control Center](images/zenccScreenshot.png)
 
 ## 3. Connect to Zen from C++
 
-Return to Visual Studio and replace `HelloZen1.cpp` with the complete example below. This is the working version used in the HelloZen repository `INSERT GITHUB LINK HERE`. The complete program is shown below so you can copy, compile, and run it right away. In Section 4, we'll break it down into smaller pieces and explain how each part works.
+Return to Visual Studio and replace `HelloZen1.cpp` with the complete example below. This is the working version used in the [HelloZen repository](https://github.com/actian-devs/HelloZenAI/tree/main/HelloZen1). The complete program is shown below so you can copy, compile, and run it right away. In Section 4, we'll break it down into smaller pieces and explain how each part works.
 
 ```cpp
 #include <iostream>
@@ -265,13 +264,16 @@ The `?` is a **parameter marker**. With ODBC, we'd use `SQLPrepare`, `SQLBindPar
 
 Now that the application works, make a small change and press **Ctrl+F5** again. Try selecting fewer columns, adding `ORDER BY Name`, or exploring the `Dept` and `Class` tables in ZenCC.
 
-You've now installed the tools and used C++ to connect to Zen, execute SQL, fetch results, report a basic error, and clean up. **Next up: CRUD with ODBC**, including parameterized queries and inserting, updating, and deleting records.
+You've taken the first step toward building database applications with Actian Zen. You now know how to connect to a Zen database, execute SQL queries, retrieve data and handle basic errors using C++ and ODBC.
+These foundational skills open the door to building applications that do more than simply retrieve information. You can begin developing applications that interact with data, support business processes and take advantage of Zen's embedded database capabilities.
+Your first application is just the beginning.
+**Next up: CRUD with ODBC**, including parameterized queries and inserting, updating, and deleting records.
 
 ### References
 
 - [Visual Studio Community download](https://visualstudio.microsoft.com/downloads/)
 - [Microsoft: Create a C++ console application](https://learn.microsoft.com/en-us/visualstudio/ide/getting-started-with-cpp-in-visual-studio)
-- [Actian Zen v17 AI downloads for Windows](https://esd.actian.com/platform/Windows_64-Bit/Zen_PSQL/v17_AI/Zen_v17_AI)
 - [Actian: Installing Zen Enterprise Server on Windows](https://docs.actian.com/zen/v17/getstart/02instnt.htm)
 - [Actian: Zen v17 ODBC API support](https://docs.actian.com/zen/v17/odbc/intro.htm)
 - [Actian Zen v17 documentation](https://docs.actian.com/zen/v17/)
+

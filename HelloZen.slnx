@@ -5,6 +5,7 @@
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
+    <File Path="HelloZen1/HelloZen1.md" />
     <File Path="HelloZenDental/DentalTutorial.md" />
     <File Path="LICENSE" />
     <File Path="README.md" />
